@@ -18,7 +18,7 @@
     cursor: {
       name: "Cursor",
       path: ".cursor/mcp.json",
-      pathNote: "Project config in workspace root (written by bootstrap or Add to Cursor)",
+      pathNote: "Project MCP config",
       outputFlag: ".cursor/mcp.json",
       wrap: false,
       deeplink: "cursor",
@@ -108,18 +108,12 @@
     return agent.pathLinux;
   }
 
-  /**
-   * Prefer absolute AGENTHUB_CATALOG_PATH on Windows — relative .agenthub can fail
-   * depending on Cursor cwd. Deeplink/templates keep ".agenthub"; install script patches absolute.
-   */
   function catalogPathForDisplay() {
     return WORKSPACE_CATALOG;
   }
 
-  /** Prefer absolute agenthub-mcp.exe on Windows — Cursor often cannot resolve bare PATH commands. */
   function pythonMcpCommand() {
     if (isWindowsUa()) {
-      // Deeplink cannot know the real home; install script patches this. Placeholder matches default venv.
       return "%USERPROFILE%/agenthub-venv/Scripts/agenthub-mcp.exe";
     }
     return "agenthub-mcp";
@@ -231,9 +225,9 @@
 
   function bootstrapScriptHint() {
     if (isWindowsUa()) {
-      return ".\\install-agenthub-mcp.ps1   # defaults to $PWD → .agenthub + .cursor\\mcp.json";
+      return ".\\install-agenthub-mcp.ps1";
     }
-    return "# Or: agenthub install --full --target ./.agenthub --source " + CATALOG_REPO;
+    return "agenthub install --full --target ./.agenthub --source " + CATALOG_REPO;
   }
 
   function copyText(text, btn) {
@@ -327,21 +321,21 @@
     if (stepsEl) {
       if (agent.deeplink === "cursor") {
         stepsEl.innerHTML = [
-          "<li><strong>Preferred:</strong> open a terminal in your <em>workspace root</em> and run the one-liner below — installs the <code>agenthub</code> CLI from git, downloads <code>.agenthub</code>, writes <code>.cursor/mcp.json</code> with <code>npx -y @agenthub-mcp/mcp --stdio</code>.</li>",
-          "<li><strong>Or</strong> click <strong>Add to Cursor</strong> — opens Cursor’s MCP install prompt with <code>npx -y @agenthub-mcp/mcp --stdio</code> and <code>AGENTHUB_CATALOG_PATH=.agenthub</code> (on Windows, prefer an absolute catalog path after install).</li>",
-          "<li>Ensure <code>.agenthub</code> exists in the open workspace (one-liner or <code>agenthub install</code>), then restart Cursor.</li>",
+          "<li>Run the project one-liner below to install the catalog and write <code>.cursor/mcp.json</code>.</li>",
+          "<li>Or click <strong>Add to Cursor</strong> to open the MCP install prompt.</li>",
+          "<li>Restart Cursor when the catalog is ready.</li>",
         ].join("");
       } else if (agent.deeplink === "vscode") {
         stepsEl.innerHTML = [
-          "<li>Run the workspace one-liner below so <code>.agenthub</code> exists and <code>@agenthub-mcp/mcp</code> is available.</li>",
-          "<li>Click <strong>Add to VS Code</strong> for the official <code>vscode:mcp/install</code> deeplink (npx runtime), or paste JSON into <code>.vscode/mcp.json</code>.</li>",
+          "<li>Run the project one-liner so <code>.agenthub</code> is in place.</li>",
+          "<li>Click <strong>Add to VS Code</strong>, or paste the JSON into <code>.vscode/mcp.json</code>.</li>",
           "<li>Reload the window if MCP tools do not appear.</li>",
         ].join("");
       } else {
         stepsEl.innerHTML = [
-          "<li>In your workspace root, run the one-liner below (CLI from git → catalog → <code>.agenthub</code>).</li>",
-          `<li>Copy the JSON into <code>${agentPath(agent)}</code> — uses <code>npx -y @agenthub-mcp/mcp</code> and <code>AGENTHUB_CATALOG_PATH=.agenthub</code> (Windows: prefer absolute path).</li>`,
-          "<li>Restart the app / refresh MCP servers. Global install alternative: <code>npm install -g @agenthub-mcp/mcp</code>.</li>",
+          "<li>Run the project one-liner from your workspace root.</li>",
+          `<li>Copy the JSON into <code>${agentPath(agent)}</code>.</li>`,
+          "<li>Restart the app and refresh MCP servers.</li>",
         ].join("");
       }
     }
@@ -469,11 +463,9 @@
     const pythonPre = document.getElementById("config-python");
     const npmPre = document.getElementById("config-npm");
     const devPre = document.getElementById("config-dev");
-    const privatePre = document.getElementById("config-private-repo");
     if (pythonPre) pythonPre.textContent = buildMcpConfig("python", false);
     if (npmPre) npmPre.textContent = buildMcpConfig("npm", false);
     if (devPre) devPre.textContent = buildMcpConfig("dev", false);
-    if (privatePre) privatePre.textContent = buildMcpConfig("npm", false);
   }
 
   document.addEventListener("DOMContentLoaded", () => {
