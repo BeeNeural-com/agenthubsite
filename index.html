@@ -138,16 +138,54 @@
             <p>Compose specialists, standards, and kickoff prompts into multi-step agent systems — discoverable at runtime via MCP.</p>
           </article>
         </div>
-        <div class="arch-diagram" aria-label="Architecture diagram">┌─────────────────┐     agenthub install      ┌──────────────┐
-│  Catalog source │ ─────────────────────────►│  .agenthub/  │
-│                 │                           │  + lockfile  │
-└─────────────────┘                           └──────┬───────┘
-                                                     │
-                    AGENTHUB_CATALOG_PATH            │
-         ┌───────────────────────────────────────────┼───────────────────────────┐
-         ▼                                           ▼                           ▼
-  agenthub-mcp --stdio                      agenthub.Catalog              export-rag
-  @agenthub-mcp/mcp (npm)                       (LangChain, apps, RAG)        (JSONL)</div>
+        <figure class="arch-diagram" aria-labelledby="arch-diagram-title">
+          <figcaption id="arch-diagram-title" class="arch-diagram-title">How the catalog flows into MCP, apps, and RAG</figcaption>
+          <div class="arch-flow" role="img" aria-describedby="arch-diagram-desc">
+            <p id="arch-diagram-desc" class="visually-hidden">
+              Catalog source installs via agenthub install into .agenthub/ plus lockfile.
+              AGENTHUB_CATALOG_PATH then feeds three consumers:
+              agenthub-mcp --stdio via @agenthub-mcp/mcp (npm),
+              agenthub.Catalog for LangChain, apps, and RAG,
+              and export-rag as JSONL.
+            </p>
+
+            <div class="arch-stage arch-stage-install">
+              <div class="arch-node">
+                <span class="arch-node-label">Catalog source</span>
+              </div>
+              <div class="arch-edge arch-edge-h" aria-hidden="true">
+                <span class="arch-edge-label">agenthub install</span>
+                <span class="arch-edge-line"></span>
+              </div>
+              <div class="arch-node arch-node-accent">
+                <span class="arch-node-label">.agenthub/</span>
+                <span class="arch-node-sub">+ lockfile</span>
+              </div>
+            </div>
+
+            <div class="arch-stage arch-stage-bridge" aria-hidden="true">
+              <div class="arch-bridge">
+                <span class="arch-bridge-line"></span>
+                <span class="arch-edge-label">AGENTHUB_CATALOG_PATH</span>
+              </div>
+            </div>
+
+            <div class="arch-stage arch-stage-consumers">
+              <div class="arch-node arch-node-consumer">
+                <span class="arch-node-label">agenthub-mcp --stdio</span>
+                <span class="arch-node-sub arch-node-pkg">@agenthub-mcp/mcp (npm)</span>
+              </div>
+              <div class="arch-node arch-node-consumer">
+                <span class="arch-node-label">agenthub.Catalog</span>
+                <span class="arch-node-sub">(LangChain, apps, RAG)</span>
+              </div>
+              <div class="arch-node arch-node-consumer">
+                <span class="arch-node-label">export-rag</span>
+                <span class="arch-node-sub">(JSONL)</span>
+              </div>
+            </div>
+          </div>
+        </figure>
       </div>
     </section>
 
