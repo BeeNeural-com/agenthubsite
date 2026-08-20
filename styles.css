@@ -642,6 +642,75 @@ section {
   color: var(--accent);
 }
 
+.install-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+}
+
+.install-cta-note {
+  margin: 0 0 1.75rem;
+  font-size: 0.85rem;
+  color: var(--text-subtle);
+  max-width: 52rem;
+  line-height: 1.5;
+}
+
+.install-cta-note code {
+  font-family: var(--font-mono);
+  font-size: 0.8em;
+  color: var(--text-muted);
+}
+
+.bootstrap-panel {
+  padding: 1.25rem 1.35rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+}
+
+.bootstrap-panel h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.05rem;
+}
+
+.bootstrap-panel > p {
+  margin: 0 0 1rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.bootstrap-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.bootstrap-hint {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-subtle);
+}
+
+.modal-label {
+  margin: 1rem 0 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.modal-label:first-of-type {
+  margin-top: 0;
+}
+
+.modal-actions a.btn {
+  display: inline-flex;
+  align-items: center;
+}
+
 /* Install tabs */
 .install-grid {
   display: grid;
