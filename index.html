@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Agent Hub — the skill catalog for agentic AI. 140+ skills, agents, rules, and prompts across 21 department bundles for coding assistants, RAG pipelines, and agentic workflows. MCP + SDK.">
+  <title>Agent Hub — Skills, RAG &amp; Agentic AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="#">
+        <span class="logo-mark" aria-hidden="true">AH</span>
+        Agent Hub
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-label="Toggle navigation">Menu</button>
+      <nav class="nav" aria-label="Primary">
+        <a href="#features">Features</a>
+        <a href="#agentic">Agentic AI</a>
+        <a href="#quick-add">Connect</a>
+        <a href="#install">Install</a>
+        <a href="#private-repo">Connect without cloning</a>
+        <a href="#skills">CLI</a>
+        <a href="#bundles">Bundles</a>
+        <a href="#docs">Docs</a>
+        <a href="#quick-add" class="nav-cta">Get started</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <span class="eyebrow">v0.1 · MCP + SDK · 21 department bundles</span>
+          <h1>Agent Hub</h1>
+          <p class="hero-tagline">The skill catalog for <span>agentic AI</span></p>
+          <p class="hero-lead">
+            A modular catalog of <strong>140+ skills</strong>, <strong>agents</strong>, <strong>rules</strong>, and
+            <strong>prompts</strong> across <strong>21 department bundles</strong> — powering coding assistants,
+            RAG pipelines, and agentic workflows company-wide.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#quick-add">Connect your agent</a>
+            <a class="btn btn-secondary" href="#install">Install packages</a>
+            <a class="btn btn-ghost" id="repo-link" href="#docs" target="_blank" rel="noopener">View on GitHub</a>
+          </div>
+          <div class="hero-stats">
+            <div class="stat">
+              <span class="stat-value">21</span>
+              <span class="stat-label">Bundles</span>
+            </div>
+            <div class="stat">
+              <span class="stat-value">147</span>
+              <span class="stat-label">Skills</span>
+            </div>
+            <div class="stat">
+              <span class="stat-value">13</span>
+              <span class="stat-label">MCP tools</span>
+            </div>
+            <div class="stat">
+              <span class="stat-value">4</span>
+              <span class="stat-label">Packages</span>
+            </div>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="terminal" role="img" aria-label="Example Agent Hub CLI session">
+            <div class="terminal-bar">
+              <span class="dot dot-red"></span>
+              <span class="dot dot-yellow"></span>
+              <span class="dot dot-green"></span>
+              <span class="terminal-title">agenthub — quick start</span>
+            </div>
+            <div class="terminal-body">
+              <div><span class="prompt">$</span> <span class="cmd">pip install "agenthub @ git+https://github.com/BeeNeural-com/agenthub.git@main#subdirectory=packages/python/agenthub"</span></div>
+              <div><span class="prompt">$</span> <span class="cmd">agenthub install --full --target ~/.agenthub --source https://github.com/BeeNeural-com/agenthub</span></div>
+              <div><span class="out">{"target": "~/.agenthub", "count": 147}</span></div>
+              <div><span class="prompt">$</span> <span class="cmd">agenthub connect --catalog ~/.agenthub --output .cursor/mcp.json</span></div>
+              <div><span class="comment"># No full clone — packages + catalog only · 13 MCP tools</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features">
+      <div class="container">
+        <header class="section-header center">
+          <span class="section-tag">Platform</span>
+          <h2>One catalog, many agent workflows</h2>
+          <p>Structured knowledge for AI agents — install what you need, expose it via MCP or embed it in your own pipelines.</p>
+        </header>
+        <div class="features-grid features-grid-wide">
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">🧠</div>
+            <h3>Skills for AI agents</h3>
+            <p>Structured <code>SKILL.md</code> workflows agents load on demand. <strong>147 skills</strong> across <strong>21 department bundles</strong> — from TDD and Next.js to threat modeling and PRDs.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon violet" aria-hidden="true">🔍</div>
+            <h3>RAG &amp; knowledge pipelines</h3>
+            <p><code>agenthub export-rag</code> emits embeddings-ready JSONL. The catalog is retrievable knowledge; MCP <code>get_*</code> tools cache bodies in <code>.agenthub-cache/</code> for low-latency repeat fetches.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon blue" aria-hidden="true">🔗</div>
+            <h3>Agentic AI workflows</h3>
+            <p>Agents, rules, and prompts as composable building blocks. 13 MCP tools — <code>list_skills</code>, <code>get_skill</code>, <code>list_bundles</code>, and more — for dynamic discovery at runtime. CLI <code>agenthub search</code> for keyword lookup.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">🏢</div>
+            <h3>Department bundles</h3>
+            <p>21 bundles for every team: engineering, web development, data analytics, security, product, DevOps, marketing, sales, legal, finance, HR, and more — each bundle ships domain-specific skills and agents.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon violet" aria-hidden="true">🔌</div>
+            <h3>Universal MCP + SDK</h3>
+            <p>Works with Cursor, VS Code, Claude Desktop, Windsurf, and Cline. Distribute via <code>pip install agenthub agenthub-mcp</code> or <code>npm install @agenthub/mcp @agenthub/sdk</code>.</p>
+          </article>
+        </div>
+        <div class="use-cases-row" aria-label="Primary use cases">
+          <article class="use-case-card">
+            <h3>Coding agents</h3>
+            <p>Connect MCP, browse skills on demand, enforce rules — your IDE agent picks the right workflow for each task.</p>
+          </article>
+          <article class="use-case-card">
+            <h3>RAG pipelines</h3>
+            <p>Export the catalog to JSONL, chunk and embed, retrieve context in LangChain, LlamaIndex, or custom vector stores.</p>
+          </article>
+          <article class="use-case-card">
+            <h3>Agentic workflows</h3>
+            <p>Compose specialists, standards, and kickoff prompts into multi-step agent systems — discoverable at runtime via MCP.</p>
+          </article>
+        </div>
+        <div class="arch-diagram" aria-label="Architecture diagram">┌─────────────────┐     agenthub install      ┌──────────────┐
+│  Git / source   │ ─────────────────────────►│  .agenthub/  │
+│  catalog        │                           │  + lockfile  │
+└─────────────────┘                           └──────┬───────┘
+                                                     │
+                    AGENTHUB_CATALOG_PATH            │
+         ┌───────────────────────────────────────────┼───────────────────────────┐
+         ▼                                           ▼                           ▼
+  agenthub-mcp --stdio                      agenthub.Catalog              export-rag
+  @agenthub/mcp (npm)                       (LangChain, apps, RAG)        (JSONL)</div>
+      </div>
+    </section>
+
+    <!-- Built for agentic AI -->
+    <section id="agentic">
+      <div class="container">
+        <header class="section-header">
+          <span class="section-tag">Agentic AI</span>
+          <h2>Built for agentic AI</h2>
+          <p>Four resource types work together — agents discover metadata first, then fetch full bodies only when needed.</p>
+        </header>
+        <div class="agentic-grid">
+          <div class="agentic-primitives">
+            <article class="primitive-card">
+              <h3>Skills</h3>
+              <p>Step-by-step workflows in <code>SKILL.md</code>. An agent calls <code>list_skills</code>, finds a match, then <code>get_skill</code> loads the full procedure.</p>
+            </article>
+            <article class="primitive-card">
+              <h3>Agents</h3>
+              <p>Specialist role definitions — research, architecture, testing, security review. Pair an agent persona with the skills it should follow.</p>
+            </article>
+            <article class="primitive-card">
+              <h3>Rules</h3>
+              <p>Coding and planning standards applied automatically. <code>list_rules</code> surfaces conventions before implementation begins.</p>
+            </article>
+            <article class="primitive-card">
+              <h3>Prompts</h3>
+              <p>Structured kickoffs for research, design, and validation tasks. Reusable templates agents fetch on demand.</p>
+            </article>
+          </div>
+          <div class="agentic-detail">
+            <h3>MCP discovery &amp; fetch</h3>
+            <p>After connecting, your agent gets 13 stdio MCP tools. Metadata tools stay lightweight; body-fetch tools write to a local cache for faster repeat access.</p>
+            <div class="tool-list">
+              <span class="tool-chip">list_skills</span>
+              <span class="tool-chip">get_skill</span>
+              <span class="tool-chip">list_agents</span>
+              <span class="tool-chip">get_agent</span>
+              <span class="tool-chip">list_rules</span>
+              <span class="tool-chip">get_rule</span>
+              <span class="tool-chip">list_prompts</span>
+              <span class="tool-chip">get_prompt</span>
+              <span class="tool-chip">list_bundles</span>
+            </div>
+            <p class="agentic-note">CLI equivalents: <code>agenthub search</code>, <code>agenthub list skills</code>, <code>agenthub get &lt;id&gt; --type skill</code>.</p>
+
+            <h3>RAG export</h3>
+            <p>Point <code>AGENTHUB_CATALOG_PATH</code> at an installed catalog, then export embeddings-ready documents — one JSON object per line with <code>id</code>, <code>text</code>, and <code>metadata</code>.</p>
+            <div class="code-block standalone">
+              <pre># Export skills and agents for a vector store
+export AGENTHUB_CATALOG_PATH=~/.agenthub
+
+agenthub export-rag --output catalog.jsonl --type skill --type agent
+agenthub export-rag --output web-skills.jsonl --type skill --bundles web-development
+
+# Embed in Python without MCP
+from agenthub.catalog import Catalog
+cat = Catalog(catalog_path=".agenthub")
+docs = cat.as_rag_documents(resource_types=("skill",))</pre>
+            </div>
+
+            <h3>Fetch cache</h3>
+            <p>MCP <code>get_*</code> tools and SDK reads cache resource bodies under <code>&lt;catalog&gt;/.agenthub-cache/</code>. Safe to clear anytime — entries rebuild on the next fetch.</p>
+            <div class="code-block standalone">
+              <pre>agenthub cache status --catalog ~/.agenthub
+agenthub cache clear --catalog ~/.agenthub</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Add -->
+    <section id="quick-add">
+      <div class="container">
+        <header class="section-header">
+          <span class="section-tag">Quick connect</span>
+          <h2>One click for your coding agent</h2>
+          <p>Click an agent below to see the exact config path and JSON snippet. Copy, paste, restart your IDE.</p>
+        </header>
+        <div class="agents-grid">
+          <button type="button" class="agent-card" data-agent="cursor">
+            <span class="agent-name">Cursor</span>
+            <span class="agent-path">.cursor/mcp.json</span>
+            <span class="agent-action">View config →</span>
+          </button>
+          <button type="button" class="agent-card" data-agent="vscode">
+            <span class="agent-name">VS Code / Copilot</span>
+            <span class="agent-path">.vscode/mcp.json</span>
+            <span class="agent-action">View config →</span>
+          </button>
+          <button type="button" class="agent-card" data-agent="claude">
+            <span class="agent-name">Claude Desktop</span>
+            <span class="agent-path">claude_desktop_config.json</span>
+            <span class="agent-action">View config →</span>
+          </button>
+          <button type="button" class="agent-card" data-agent="windsurf">
+            <span class="agent-name">Windsurf</span>
+            <span class="agent-path">~/.codeium/windsurf/mcp_config.json</span>
+            <span class="agent-action">View config →</span>
+          </button>
+          <button type="button" class="agent-card" data-agent="cline">
+            <span class="agent-name">Cline</span>
+            <span class="agent-path">cline_mcp_settings.json</span>
+            <span class="agent-action">View config →</span>
+          </button>
+        </div>
+        <div class="connect-hint">
+          <strong>Tip:</strong> Prefer
+          <code>agenthub connect --catalog ~/.agenthub --output .cursor/mcp.json</code>
+          after install — it writes an absolute catalog path. No full private-repo clone required.
+          Use <code>--runtime npm</code> for the TypeScript MCP server.
+        </div>
+      </div>
+    </section>
+
+    <!-- Install -->
+    <section id="install">
+      <div class="container">
+        <header class="section-header">
+          <span class="section-tag">Packages</span>
+          <h2>Install SDK &amp; MCP server</h2>
+          <p>
+            Packages and catalog live on the <strong>private</strong> repo
+            <a href="https://github.com/BeeNeural-com/agenthub" target="_blank" rel="noopener">BeeNeural-com/agenthub</a>.
+            This public site only documents the flow — install from git (token/SSH), not a full clone.
+          </p>
+        </header>
+        <div class="install-grid">
+          <div class="install-card">
+            <div class="install-card-header">
+              <h3>Python <span class="pkg-badge">private git</span></h3>
+            </div>
+            <div class="code-block">
+              <pre># Set a token with repo read access (private BeeNeural-com/agenthub)
+# PowerShell: $env:GITHUB_TOKEN = "ghp_..."
+
+pip install "agenthub @ git+https://x-access-token:$env:GITHUB_TOKEN@github.com/BeeNeural-com/agenthub.git@main#subdirectory=packages/python/agenthub"
+pip install "agenthub-mcp @ git+https://x-access-token:$env:GITHUB_TOKEN@github.com/BeeNeural-com/agenthub.git@main#subdirectory=packages/python/agenthub-mcp"
+
+# Or SSH (no token in URL):
+# pip install "agenthub @ git+ssh://git@github.com/BeeNeural-com/agenthub.git@main#subdirectory=packages/python/agenthub"</pre>
+            </div>
+          </div>
+          <div class="install-card">
+            <div class="install-card-header">
+              <h3>npm <span class="pkg-badge">private git</span></h3>
+            </div>
+            <div class="code-block">
+              <pre># TypeScript MCP from the same private monorepo
+npm install "git+https://x-access-token:${GITHUB_TOKEN}@github.com/BeeNeural-com/agenthub.git#main:packages/npm/mcp"
+
+# Or after local build from a maintainer checkout:
+# npx agenthub-mcp --stdio</pre>
+            </div>
+          </div>
+        </div>
+        <div class="code-block standalone" style="margin-top: 1.25rem;">
+          <pre># Download catalog only (no full clone) into ~/.agenthub
+# Uses GitHub zipball of global/ + bundles/; needs GITHUB_TOKEN if private
+
+agenthub install --full --target ~/.agenthub --source https://github.com/BeeNeural-com/agenthub
+# Or one bundle: agenthub install --bundle web-development --target ~/.agenthub --source https://github.com/BeeNeural-com/agenthub
+
+agenthub connect --catalog ~/.agenthub --output .cursor/mcp.json</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Public site + private MCP (no clone) -->
+    <section id="private-repo">
+      <div class="container">
+        <header class="section-header">
+          <span class="section-tag">Connect without cloning</span>
+          <h2>Public docs site · private MCP repo</h2>
+          <p>
+            This landing page is meant for a <strong>public</strong> GitHub Pages host.
+            The MCP server, SDK packages, and skill catalog stay on the <strong>private</strong> repo
+            <a href="https://github.com/BeeNeural-com/agenthub" target="_blank" rel="noopener">BeeNeural-com/agenthub</a>.
+            End users install thin packages + download catalog only — <strong>never clone the full private codebase</strong>.
+          </p>
+        </header>
+
+        <ol class="private-repo-steps">
+          <li>
+            <strong>Create a GitHub token</strong> with read access to <code>BeeNeural-com/agenthub</code>
+            (classic: <code>repo</code> scope, or fine-grained: Contents read):
+            <div class="code-block standalone" style="margin-top: 0.75rem;">
+              <pre># PowerShell
+$env:GITHUB_TOKEN = "ghp_xxxxxxxx"   # or AGENTHUB_GITHUB_TOKEN</pre>
+            </div>
+          </li>
+          <li>
+            <strong>pip install packages from private git</strong> (subdirectory wheels — not the whole tree):
+            <div class="code-block standalone" style="margin-top: 0.75rem;">
+              <pre>python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install "agenthub @ git+https://x-access-token:$env:GITHUB_TOKEN@github.com/BeeNeural-com/agenthub.git@main#subdirectory=packages/python/agenthub"
+pip install "agenthub-mcp @ git+https://x-access-token:$env:GITHUB_TOKEN@github.com/BeeNeural-com/agenthub.git@main#subdirectory=packages/python/agenthub-mcp"</pre>
+            </div>
+          </li>
+          <li>
+            <strong>Download catalog only</strong> into <code>~/.agenthub</code> (global + all bundles):
+            <div class="code-block standalone" style="margin-top: 0.75rem;">
+              <pre>agenthub install --full --target $HOME\.agenthub --source https://github.com/BeeNeural-com/agenthub</pre>
+            </div>
+            <p class="step-note">Uses the GitHub API zipball and extracts <code>global/</code> + <code>bundles/</code> only. Token is read from <code>GITHUB_TOKEN</code> or <code>AGENTHUB_GITHUB_TOKEN</code>.</p>
+          </li>
+          <li>
+            <strong>Generate MCP config</strong> — <code>agenthub-mcp</code> on PATH + local thin catalog:
+            <div class="code-block standalone" style="margin-top: 0.75rem;">
+              <pre>agenthub connect --catalog $HOME\.agenthub --output .cursor\mcp.json</pre>
+            </div>
+            <p class="step-note">Or copy this template (replace <code>YOUR_USER</code> with your Windows username):</p>
+            <div class="code-block standalone">
+              <pre id="config-private-repo"></pre>
+            </div>
+          </li>
+          <li><strong>Restart Cursor</strong> — the <strong>agenthub</strong> server should expose 13 tools. No private clone on disk.</li>
+        </ol>
+
+        <div class="connect-hint" style="margin-top: 1.5rem;">
+          <strong>What “one click” means here:</strong> Cursor does <em>not</em> support MCP deep-link install URLs.
+          Click an agent under <a href="#quick-add">Connect</a> → <strong>Copy JSON</strong> → paste into
+          <code>.cursor/mcp.json</code> → set <code>AGENTHUB_CATALOG_PATH</code> to your downloaded catalog
+          (e.g. <code>C:\Users\YOU\.agenthub</code>). Prefer <code>agenthub connect</code> so the path is absolute.
+        </div>
+
+        <div class="private-repo-notes">
+          <article class="feature-card">
+            <h3>Public Pages vs private MCP</h3>
+            <p>
+              Host this <code>docs/</code> site from a <strong>public</strong> repo (GitHub Pages).
+              Keep packages + catalog on <strong>private</strong> <code>BeeNeural-com/agenthub</code>.
+              The static site never ships skill bodies — only install/connect instructions and MCP JSON templates.
+            </p>
+          </article>
+          <article class="feature-card">
+            <h3>Maintainers who do clone</h3>
+            <p>
+              Local path sources still work for developers with a checkout:
+              <code>agenthub install --full --target .agenthub --source .</code>
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Manual setup -->
+    <section id="manual">
+      <div class="container">
+        <header class="section-header">
+          <span class="section-tag">Manual setup</span>
+          <h2>MCP config examples</h2>
+          <p>Paste into your agent's MCP config file. Set <code>AGENTHUB_CATALOG_PATH</code> to your installed catalog and optionally filter with <code>AGENTHUB_BUNDLE</code>.</p>
+        </header>
+        <div data-tabs>
+          <div class="setup-tabs" role="tablist">
+            <button type="button" class="tab-btn active" data-tab="tab-python" role="tab">Python (agenthub-mcp)</button>
+            <button type="button" class="tab-btn" data-tab="tab-npm" role="tab">npm (@agenthub/mcp)</button>
+            <button type="button" class="tab-btn" data-tab="tab-dev" role="tab">Dev (repo venv)</button>
+          </div>
+          <div id="tab-python" class="tab-panel active" role="tabpanel">
+            <div class="code-block standalone">
+              <pre id="config-python"></pre>
+            </div>
+          </div>
+          <div id="tab-npm" class="tab-panel" role="tabpanel">
+            <div class="code-block standalone">
+              <pre id="config-npm"></pre>
+            </div>
+          </div>
+          <div id="tab-dev" class="tab-panel" role="tabpanel">
+            <div class="code-block standalone">
+              <pre id="config-dev"></pre>
+            </div>
+          </div>
+        </div>
+        <table class="env-table">
+          <thead>
+            <tr>
+              <th>Variable</th>
+              <th>Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>AGENTHUB_CATALOG_PATH</code></td>
+              <td>Installed catalog directory (e.g. <code>.agenthub/</code> or repo root for dev)</td>
+            </tr>
+            <tr>
+              <td><code>AGENTHUB_BUNDLE</code></td>
+              <td>Comma-separated bundle filter — full company preset (all 21 bundles) in Dev tab, or subset e.g. <code>web-development,software-engineering-general,product-management,security</code></td>
+            </tr>
+            <tr>
+              <td><code>AGENTHUB_CACHE_PATH</code></td>
+              <td>Fetch cache override (default: <code>&lt;catalog&gt;/.agenthub-cache/</code>)</td>
+            </tr>
+            <tr>
+              <td><code>AGENTHUB_TOOL_DESC_MODE</code></td>
+              <td><code>active</code> (default) or <code>passive</code> MCP tool descriptions</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Skills / CLI -->
+    <section id="skills">
+      <div class="container">
+        <header class="section-header">
+          <span class="section-tag">Granular download</span>
+          <h2>Browse &amp; download skills one-by-one</h2>
+          <p>Use the CLI for search, list, and single-resource install — or fetch via MCP <code>get_skill</code> after connecting.</p>
+        </header>
+        <div class="skills-grid">
+          <div class="skill-card">
+            <h3>CLI commands</h3>
+            <p>All commands run against <code>AGENTHUB_CATALOG_PATH</code> (source for install, installed dir for list/search/get).</p>
+            <div class="code-block standalone">
+              <pre># Search
+agenthub search react
+agenthub search "threat model" --bundles security
+
+# List
+agenthub list skills
+agenthub list skills --bundles web-development
+agenthub list bundles
+
+# Fetch one resource body
+agenthub get nextjs-development --type skill
+agenthub get threat-modeling --type skill
+
+# Install one bundle or single skill
+agenthub install --bundle web-development --target ~/.agenthub --source https://github.com/BeeNeural-com/agenthub
+agenthub install --skill threat-modeling --target ./kb --source https://github.com/BeeNeural-com/agenthub</pre>
+            </div>
+          </div>
+          <div class="skill-card">
+            <h3>MCP tools (13)</h3>
+            <p>After connecting, your agent can discover and fetch resources on demand. <code>get_*</code> tools cache bodies locally.</p>
+            <div class="tool-list">
+              <span class="tool-chip">list_skills</span>
+              <span class="tool-chip">get_skill</span>
+              <span class="tool-chip">get_skill_file</span>
+              <span class="tool-chip">list_agents</span>
+              <span class="tool-chip">get_agent</span>
+              <span class="tool-chip">get_agent_file</span>
+              <span class="tool-chip">list_rules</span>
+              <span class="tool-chip">get_rule</span>
+              <span class="tool-chip">get_rule_file</span>
+              <span class="tool-chip">list_prompts</span>
+              <span class="tool-chip">get_prompt</span>
+              <span class="tool-chip">get_prompt_file</span>
+              <span class="tool-chip">list_bundles</span>
+            </div>
+            <div class="code-block standalone" style="margin-top: 1rem;">
+              <pre># MCP workflow (in your agent session)
+list_skills          → browse available workflows
+get_skill nextjs-development  → fetch full skill body
+list_rules           → coding standards for the task</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bundles -->
+    <section id="bundles">
+      <div class="container">
+        <header class="section-header center">
+          <span class="section-tag">Bundle catalog</span>
+          <h2>Every team, one catalog</h2>
+          <p>21 curated bundles cover software engineering, web development, data, security, product, operations, legal, and more — 141 bundle skills plus 6 global skills when the full catalog is installed. Filter with <code>AGENTHUB_BUNDLE</code> or install subsets with <code>agenthub install --bundle</code>.</p>
+        </header>
+        <div id="bundles-grid" class="bundles-grid"></div>
+      </div>
+    </section>
+
+    <!-- Docs -->
+    <section id="docs">
+      <div class="container">
+        <header class="section-header center">
+          <span class="section-tag">Documentation</span>
+          <h2>Go deeper</h2>
+          <p>Full deployment guide, quickstart walkthrough, and architecture research in the repo.</p>
+        </header>
+        <div class="docs-links">
+          <a class="doc-link" data-doc="doc/deployment-guide.md" href="#">
+            <h3>Deployment Guide</h3>
+            <p>End-to-end install, MCP wiring, environment reference, CI, and fellow-developer checklist.</p>
+          </a>
+          <a class="doc-link" data-doc="examples/download-and-connect.md" href="#">
+            <h3>Download &amp; Connect</h3>
+            <p>Short quickstart: install CLI, download catalog, connect to Cursor, verify with smoke test.</p>
+          </a>
+          <a class="doc-link" data-doc="packages/python/agenthub/README.md" href="#">
+            <h3>Python SDK Reference</h3>
+            <p>Full CLI table, install modes, SDK usage, and RAG export.</p>
+          </a>
+          <a class="doc-link" data-doc="packages/npm/mcp/README.md" href="#">
+            <h3>npm MCP Reference</h3>
+            <p>TypeScript MCP server setup, mcp.json examples, and environment variables.</p>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span>Agent Hub v0.1 · CARIAD SE</span>
+      <span>Skills, RAG pipelines &amp; agentic workflows for every department</span>
+    </div>
+  </footer>
+
+  <!-- Agent config modal -->
+  <div id="agent-modal" class="modal-overlay" aria-hidden="true" role="dialog" aria-labelledby="modal-title">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <h2 id="modal-title">Connect Agent</h2>
+          <p id="modal-path" class="modal-path"></p>
+        </div>
+        <button type="button" class="modal-close" aria-label="Close dialog">&times;</button>
+      </div>
+      <div class="modal-body">
+        <ol class="modal-steps">
+          <li>Install catalog: <code>agenthub install --full --target ~/.agenthub --source https://github.com/BeeNeural-com/agenthub</code></li>
+          <li>Paste the JSON below into the config file shown above</li>
+          <li>Update <code>AGENTHUB_CATALOG_PATH</code> to your downloaded catalog (e.g. <code>C:\Users\YOU\.agenthub</code>)</li>
+          <li>Restart your IDE or reload MCP servers</li>
+        </ol>
+        <div class="code-block standalone">
+          <pre id="modal-config"></pre>
+        </div>
+        <div class="connect-cmd-block">
+          <p style="margin: 1rem 0 0.5rem; font-size: 0.9rem; color: var(--text-muted);">Or generate automatically:</p>
+          <div class="code-block standalone">
+            <pre id="modal-connect-cmd"></pre>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-primary btn-sm" id="modal-copy-config">Copy JSON</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="modal-copy-connect">Copy connect command</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
