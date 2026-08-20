@@ -108,13 +108,30 @@
     return agent.pathLinux;
   }
 
+  /**
+   * Prefer absolute AGENTHUB_CATALOG_PATH on Windows — relative .agenthub can fail
+   * depending on Cursor cwd. Deeplink/templates keep ".agenthub"; install script patches absolute.
+   */
+  function catalogPathForDisplay() {
+    return WORKSPACE_CATALOG;
+  }
+
+  /** Prefer absolute agenthub-mcp.exe on Windows — Cursor often cannot resolve bare PATH commands. */
+  function pythonMcpCommand() {
+    if (isWindowsUa()) {
+      // Deeplink cannot know the real home; install script patches this. Placeholder matches default venv.
+      return "%USERPROFILE%/agenthub-venv/Scripts/agenthub-mcp.exe";
+    }
+    return "agenthub-mcp";
+  }
+
   /** Stdio server entry for mcp.json (no name wrapper). */
   function mcpServerEntry(runtime) {
-    const catalog = WORKSPACE_CATALOG;
+    const catalog = catalogPathForDisplay();
     if (runtime === "noclone" || runtime === "private" || runtime === "python") {
       return {
         type: "stdio",
-        command: "agenthub-mcp",
+        command: pythonMcpCommand(),
         args: ["--stdio"],
         env: {
           AGENTHUB_CATALOG_PATH: catalog,
@@ -127,10 +144,9 @@
       return {
         type: "stdio",
         command: "npx",
-        args: ["-y", "@agenthub/mcp@latest", "--stdio"],
+        args: ["-y", "@agenthub-mcp/mcp", "--stdio"],
         env: {
           AGENTHUB_CATALOG_PATH: catalog,
-          AGENTHUB_BUNDLE: FULL_BUNDLE_PRESET,
         },
       };
     }
@@ -148,7 +164,7 @@
     }
     return {
       type: "stdio",
-      command: "agenthub-mcp",
+      command: pythonMcpCommand(),
       args: ["--stdio"],
       env: {
         AGENTHUB_CATALOG_PATH: catalog,
@@ -178,7 +194,7 @@
    * config = JSON.stringify(serverConfig) then base64 (no mcpServers wrapper).
    */
   function cursorInstallUrl(runtime) {
-    const config = mcpServerEntry(runtime || "python");
+    const config = mcpServerEntry(runtime || "npm");
     const encoded = encodeURIComponent(toBase64Utf8(JSON.stringify(config)));
     return (
       "cursor://anysphere.cursor-deeplink/mcp/install" +
@@ -191,7 +207,7 @@
    * vscode:mcp/install?${encodeURIComponent(JSON.stringify({ name, ...config }))}
    */
   function vscodeInstallUrl(runtime) {
-    const payload = Object.assign({ name: SERVER_NAME }, mcpServerEntry(runtime || "python"));
+    const payload = Object.assign({ name: SERVER_NAME }, mcpServerEntry(runtime || "npm"));
     return `vscode:mcp/install?${encodeURIComponent(JSON.stringify(payload))}`;
   }
 
@@ -199,20 +215,17 @@
     const src = CATALOG_REPO;
     const gitAh =
       'git+https://github.com/BeeNeural-com/agenthub.git@main#subdirectory=packages/python/agenthub';
-    const gitMcp =
-      'git+https://github.com/BeeNeural-com/agenthub.git@main#subdirectory=packages/python/agenthub-mcp';
     if (isWindowsUa()) {
       return [
-        "pip install agenthub agenthub-mcp",
-        `if (-not $?) { pip install "agenthub @ ${gitAh}"; pip install "agenthub-mcp @ ${gitMcp}" }`,
+        `pip install "agenthub @ ${gitAh}"`,
         `agenthub install --full --target .\\.agenthub --source ${src}`,
-        "agenthub connect --catalog .\\.agenthub --output .\\.cursor\\mcp.json",
+        "agenthub connect --catalog .\\.agenthub --output .\\.cursor\\mcp.json --runtime npm",
       ].join("; ");
     }
     return [
-      `pip install agenthub agenthub-mcp || (pip install "agenthub @ ${gitAh}" && pip install "agenthub-mcp @ ${gitMcp}")`,
+      `pip install "agenthub @ ${gitAh}"`,
       `agenthub install --full --target ./.agenthub --source ${src}`,
-      "agenthub connect --catalog ./.agenthub --output ./.cursor/mcp.json",
+      "agenthub connect --catalog ./.agenthub --output ./.cursor/mcp.json --runtime npm",
     ].join(" && ");
   }
 
@@ -304,7 +317,7 @@
     title.textContent = `Connect ${agent.name}`;
     pathEl.textContent = agentPath(agent) + (agent.pathNote ? ` — ${agent.pathNote}` : "");
 
-    const config = buildMcpConfig("python", agent.wrap);
+    const config = buildMcpConfig("npm", agent.wrap);
     configPre.textContent = config;
 
     if (bootstrapPre) {
@@ -314,21 +327,21 @@
     if (stepsEl) {
       if (agent.deeplink === "cursor") {
         stepsEl.innerHTML = [
-          "<li><strong>Preferred:</strong> open a terminal in your <em>workspace root</em> and run the one-liner below — installs packages, downloads <code>.agenthub</code>, writes <code>.cursor/mcp.json</code> (no path paste).</li>",
-          "<li><strong>Or</strong> click <strong>Add to Cursor</strong> — opens Cursor’s MCP install prompt with a pre-filled config (<code>AGENTHUB_CATALOG_PATH=.agenthub</code>).</li>",
-          "<li>Ensure <code>agenthub-mcp</code> is on PATH (from the one-liner or <code>pip install</code>) and restart Cursor.</li>",
+          "<li><strong>Preferred:</strong> open a terminal in your <em>workspace root</em> and run the one-liner below — installs the <code>agenthub</code> CLI from git, downloads <code>.agenthub</code>, writes <code>.cursor/mcp.json</code> with <code>npx -y @agenthub-mcp/mcp --stdio</code>.</li>",
+          "<li><strong>Or</strong> click <strong>Add to Cursor</strong> — opens Cursor’s MCP install prompt with <code>npx -y @agenthub-mcp/mcp --stdio</code> and <code>AGENTHUB_CATALOG_PATH=.agenthub</code> (on Windows, prefer an absolute catalog path after install).</li>",
+          "<li>Ensure <code>.agenthub</code> exists in the open workspace (one-liner or <code>agenthub install</code>), then restart Cursor.</li>",
         ].join("");
       } else if (agent.deeplink === "vscode") {
         stepsEl.innerHTML = [
-          "<li>Run the workspace one-liner below so <code>.agenthub</code> exists and packages are installed.</li>",
-          "<li>Click <strong>Add to VS Code</strong> for the official <code>vscode:mcp/install</code> deeplink, or paste JSON into <code>.vscode/mcp.json</code>.</li>",
+          "<li>Run the workspace one-liner below so <code>.agenthub</code> exists and <code>@agenthub-mcp/mcp</code> is available.</li>",
+          "<li>Click <strong>Add to VS Code</strong> for the official <code>vscode:mcp/install</code> deeplink (npx runtime), or paste JSON into <code>.vscode/mcp.json</code>.</li>",
           "<li>Reload the window if MCP tools do not appear.</li>",
         ].join("");
       } else {
         stepsEl.innerHTML = [
-          "<li>In your workspace root, run the one-liner below (catalog → <code>.agenthub</code>).</li>",
-          `<li>Copy the JSON into <code>${agentPath(agent)}</code> — catalog path is relative <code>.agenthub</code> (no <code>YOUR_USER</code> edit).</li>`,
-          "<li>Restart the app / refresh MCP servers.</li>",
+          "<li>In your workspace root, run the one-liner below (CLI from git → catalog → <code>.agenthub</code>).</li>",
+          `<li>Copy the JSON into <code>${agentPath(agent)}</code> — uses <code>npx -y @agenthub-mcp/mcp</code> and <code>AGENTHUB_CATALOG_PATH=.agenthub</code> (Windows: prefer absolute path).</li>`,
+          "<li>Restart the app / refresh MCP servers. Global install alternative: <code>npm install -g @agenthub-mcp/mcp</code>.</li>",
         ].join("");
       }
     }
@@ -336,7 +349,7 @@
     const connectBlock = connectCmd.closest(".connect-cmd-block");
     const copyConnectBtn = document.getElementById("modal-copy-connect");
     if (agent.outputFlag) {
-      connectCmd.textContent = `agenthub connect --catalog .agenthub --output ${agent.outputFlag}`;
+      connectCmd.textContent = `agenthub connect --catalog .agenthub --output ${agent.outputFlag} --runtime npm`;
       connectBlock.hidden = false;
       copyConnectBtn.hidden = false;
     } else {
@@ -347,10 +360,10 @@
     if (deeplinkBtn) {
       if (agent.deeplink === "cursor") {
         deeplinkBtn.textContent = "Add to Cursor";
-        wireDeeplink(deeplinkBtn, cursorInstallUrl("python"));
+        wireDeeplink(deeplinkBtn, cursorInstallUrl("npm"));
       } else if (agent.deeplink === "vscode") {
         deeplinkBtn.textContent = "Add to VS Code";
-        wireDeeplink(deeplinkBtn, vscodeInstallUrl("python"));
+        wireDeeplink(deeplinkBtn, vscodeInstallUrl("npm"));
       } else {
         deeplinkBtn.hidden = true;
         deeplinkBtn.removeAttribute("href");
@@ -398,8 +411,8 @@
   }
 
   function initDeeplinkCtas() {
-    const cursorUrl = cursorInstallUrl("python");
-    const vscodeUrl = vscodeInstallUrl("python");
+    const cursorUrl = cursorInstallUrl("npm");
+    const vscodeUrl = vscodeInstallUrl("npm");
 
     document.querySelectorAll("[data-cursor-install]").forEach((el) => {
       wireDeeplink(el, cursorUrl);
@@ -460,7 +473,7 @@
     if (pythonPre) pythonPre.textContent = buildMcpConfig("python", false);
     if (npmPre) npmPre.textContent = buildMcpConfig("npm", false);
     if (devPre) devPre.textContent = buildMcpConfig("dev", false);
-    if (privatePre) privatePre.textContent = buildMcpConfig("noclone", false);
+    if (privatePre) privatePre.textContent = buildMcpConfig("npm", false);
   }
 
   document.addEventListener("DOMContentLoaded", () => {

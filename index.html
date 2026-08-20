@@ -78,11 +78,12 @@
               <span class="terminal-title">agenthub — quick start</span>
             </div>
             <div class="terminal-body">
-              <div><span class="prompt">$</span> <span class="cmd">pip install agenthub agenthub-mcp</span></div>
-              <div><span class="prompt">$</span> <span class="cmd">agenthub install --full --target .agenthub --source https://github.com/BeeNeural-com/agenthub</span></div>
+              <div><span class="prompt">$</span> <span class="cmd">npx -y @agenthub-mcp/mcp --stdio</span></div>
+              <div><span class="prompt">$</span> <span class="cmd">pip install "agenthub @ git+https://github.com/BeeNeural-com/agenthub.git@main#subdirectory=packages/python/agenthub"</span></div>
+              <div><span class="prompt">$</span> <span class="cmd">agenthub install --full --target ./.agenthub --source https://github.com/BeeNeural-com/agenthub</span></div>
               <div><span class="out">{"target": ".agenthub", "count": 147}</span></div>
-              <div><span class="prompt">$</span> <span class="cmd">agenthub connect --catalog .agenthub --output .cursor/mcp.json</span></div>
-              <div><span class="comment"># Workspace root · public repo · no token · 13 MCP tools</span></div>
+              <div><span class="prompt">$</span> <span class="cmd">agenthub connect --catalog ./.agenthub --output .cursor/mcp.json --runtime npm</span></div>
+              <div><span class="comment"># Workspace · npm MCP · CLI from git · public repo · no token</span></div>
             </div>
           </div>
         </div>
@@ -121,7 +122,7 @@
           <article class="feature-card">
             <div class="feature-icon violet" aria-hidden="true">🔌</div>
             <h3>Universal MCP + SDK</h3>
-            <p>Works with Cursor, VS Code, Claude Desktop, Windsurf, and Cline. Distribute via <code>pip install agenthub agenthub-mcp</code> or <code>npm install @agenthub/mcp @agenthub/sdk</code>.</p>
+            <p>Works with Cursor, VS Code, Claude Desktop, Windsurf, and Cline. Primary MCP: <code>npx -y @agenthub-mcp/mcp --stdio</code> (published on npm). Catalog CLI from public git until PyPI publish. Optional: <code>@agenthub-mcp/sdk</code> when published.</p>
           </article>
         </div>
         <div class="use-cases-row" aria-label="Primary use cases">
@@ -147,7 +148,7 @@
          ┌───────────────────────────────────────────┼───────────────────────────┐
          ▼                                           ▼                           ▼
   agenthub-mcp --stdio                      agenthub.Catalog              export-rag
-  @agenthub/mcp (npm)                       (LangChain, apps, RAG)        (JSONL)</div>
+  @agenthub-mcp/mcp (npm)                       (LangChain, apps, RAG)        (JSONL)</div>
       </div>
     </section>
 
@@ -240,15 +241,20 @@ agenthub cache clear --catalog .agenthub</pre>
         <p class="install-cta-note">
           Cursor uses the official deeplink
           <code>cursor://anysphere.cursor-deeplink/mcp/install?name=…&amp;config=…</code>
-          (base64 JSON). Config points at relative <code>.agenthub</code> in the open workspace — no manual path paste.
+          (base64 JSON). Config uses <code>npx -y @agenthub-mcp/mcp --stdio</code> and
+          <code>AGENTHUB_CATALOG_PATH=.agenthub</code>. On Windows, prefer an absolute catalog path
+          after the one-liner / install script runs.
         </p>
 
         <div class="bootstrap-panel">
           <h3>Workspace one-liner (recommended)</h3>
           <p>
             Open a terminal in your <strong>project root</strong>, then run once.
-            Installs packages (PyPI, else public git), syncs the catalog to <code>.agenthub</code>,
-            and writes <code>.cursor/mcp.json</code> with an absolute command/catalog path.
+            Installs catalog CLI (<code>agenthub</code> from public git), syncs the catalog to
+            <code>.agenthub</code>, and writes <code>.cursor/mcp.json</code> with
+            <code>npx -y @agenthub-mcp/mcp --stdio</code>.
+            On Windows, prefer an <strong>absolute</strong> path for <code>AGENTHUB_CATALOG_PATH</code>
+            (the one-liner / install script set this for you).
           </p>
           <div class="code-block standalone">
             <pre id="bootstrap-oneliner"></pre>
@@ -288,8 +294,9 @@ agenthub cache clear --catalog .agenthub</pre>
         </div>
         <div class="connect-hint">
           <strong>Tip:</strong> After the one-liner,
-          <code>agenthub connect --catalog .agenthub --output .cursor/mcp.json</code>
-          rewrites config with resolved absolute paths. No full-repo clone. Use <code>--runtime npm</code> for the TypeScript MCP server when published.
+          <code>agenthub connect --catalog ./.agenthub --output .cursor/mcp.json --runtime npm</code>
+          rewrites config for the published npm MCP server (<code>npx -y @agenthub-mcp/mcp</code>).
+          Use <code>--runtime python</code> only if you installed the optional Python MCP from git. No full-repo clone.
         </div>
       </div>
     </section>
@@ -303,33 +310,41 @@ agenthub cache clear --catalog .agenthub</pre>
           <p>
             Packages and catalog live on the <strong>public</strong> repo
             <a href="https://github.com/BeeNeural-com/agenthub" target="_blank" rel="noopener">BeeNeural-com/agenthub</a>.
-            Prefer PyPI when published; otherwise install from public git (subdirectory) — no token, no full clone.
+            <strong>MCP is on npm</strong> today; the catalog CLI installs from <strong>public git</strong>
+            (PyPI <code>agenthub</code> / <code>agenthub-mcp</code> coming soon).
+            No token or full clone required.
           </p>
         </header>
         <div class="install-grid">
           <div class="install-card">
             <div class="install-card-header">
-              <h3>Python <span class="pkg-badge">public</span></h3>
+              <h3>npm MCP <span class="pkg-badge">published</span></h3>
             </div>
             <div class="code-block">
-              <pre># Prefer PyPI when published
-pip install agenthub agenthub-mcp
+              <pre># Primary for Cursor — published on npm
+npx -y @agenthub-mcp/mcp --stdio
+# or global: npm install -g @agenthub-mcp/mcp
 
-# Or public git (subdirectory — no token, no full clone)
-# pip install "agenthub @ git+https://github.com/BeeNeural-com/agenthub.git@main#subdirectory=packages/python/agenthub"
-# pip install "agenthub-mcp @ git+https://github.com/BeeNeural-com/agenthub.git@main#subdirectory=packages/python/agenthub-mcp"</pre>
+# Optional SDK (when published):
+# npm install @agenthub-mcp/sdk
+
+# Or public git subdirectory:
+# npm install "git+https://github.com/BeeNeural-com/agenthub.git#main:packages/npm/mcp"</pre>
             </div>
           </div>
           <div class="install-card">
             <div class="install-card-header">
-              <h3>npm <span class="pkg-badge">public</span></h3>
+              <h3>Python CLI <span class="pkg-badge">from git</span></h3>
             </div>
             <div class="code-block">
-              <pre># Prefer npm registry when published
-npm install @agenthub/mcp
+              <pre># Catalog CLI (required for agenthub install / connect)
+# PyPI not published yet — install from public git:
+pip install "agenthub @ git+https://github.com/BeeNeural-com/agenthub.git@main#subdirectory=packages/python/agenthub"
 
-# Or public git subdirectory:
-# npm install "git+https://github.com/BeeNeural-com/agenthub.git#main:packages/npm/mcp"</pre>
+# Optional Python MCP (secondary; prefer npm above)
+# pip install "agenthub-mcp @ git+https://github.com/BeeNeural-com/agenthub.git@main#subdirectory=packages/python/agenthub-mcp"
+
+# Coming soon: pip install agenthub</pre>
             </div>
           </div>
         </div>
@@ -337,10 +352,11 @@ npm install @agenthub/mcp
           <pre># Download catalog into the open workspace (no full clone)
 # Public zipball of global/ + bundles/ — no token required
 
-agenthub install --full --target .agenthub --source https://github.com/BeeNeural-com/agenthub
-# Or one bundle: agenthub install --bundle web-development --target .agenthub --source https://github.com/BeeNeural-com/agenthub
+agenthub install --full --target ./.agenthub --source https://github.com/BeeNeural-com/agenthub
+# Or one bundle: agenthub install --bundle web-development --target ./.agenthub --source https://github.com/BeeNeural-com/agenthub
 
-agenthub connect --catalog .agenthub --output .cursor/mcp.json</pre>
+agenthub connect --catalog ./.agenthub --output .cursor/mcp.json --runtime npm
+# Windows: prefer absolute AGENTHUB_CATALOG_PATH (e.g. C:/Users/you/project/.agenthub)</pre>
         </div>
       </div>
     </section>
@@ -361,29 +377,32 @@ agenthub connect --catalog .agenthub --output .cursor/mcp.json</pre>
 
         <ol class="private-repo-steps">
           <li>
-            <strong>Install packages</strong> (PyPI preferred; public git fallback — no token):
+            <strong>Install packages</strong> (npm MCP + catalog CLI from git — no token):
             <div class="code-block standalone" style="margin-top: 0.75rem;">
-              <pre>python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-pip install agenthub agenthub-mcp
-# Fallback:
-# pip install "agenthub @ git+https://github.com/BeeNeural-com/agenthub.git@main#subdirectory=packages/python/agenthub"
+              <pre># MCP (published on npm)
+npx -y @agenthub-mcp/mcp --stdio
+# or: npm install -g @agenthub-mcp/mcp
+
+# Catalog CLI (PyPI coming soon — use git today)
+pip install "agenthub @ git+https://github.com/BeeNeural-com/agenthub.git@main#subdirectory=packages/python/agenthub"
+
+# Optional Python MCP (secondary):
 # pip install "agenthub-mcp @ git+https://github.com/BeeNeural-com/agenthub.git@main#subdirectory=packages/python/agenthub-mcp"</pre>
             </div>
           </li>
           <li>
             <strong>Download catalog</strong> into the workspace <code>.agenthub</code> folder:
             <div class="code-block standalone" style="margin-top: 0.75rem;">
-              <pre>agenthub install --full --target .\.agenthub --source https://github.com/BeeNeural-com/agenthub</pre>
+              <pre>agenthub install --full --target ./.agenthub --source https://github.com/BeeNeural-com/agenthub</pre>
             </div>
             <p class="step-note">Uses the GitHub API zipball and extracts <code>global/</code> + <code>bundles/</code> only. Public repo — no token required.</p>
           </li>
           <li>
             <strong>Write MCP config</strong> into the workspace (or use <a href="#quick-add">Add to Cursor</a>):
             <div class="code-block standalone" style="margin-top: 0.75rem;">
-              <pre>agenthub connect --catalog .\.agenthub --output .cursor\mcp.json</pre>
+              <pre>agenthub connect --catalog ./.agenthub --output .cursor/mcp.json --runtime npm</pre>
             </div>
-            <p class="step-note">Template uses relative <code>.agenthub</code> — no <code>YOUR_USER</code> path editing:</p>
+            <p class="step-note">Template uses <code>npx -y @agenthub-mcp/mcp</code> + workspace <code>.agenthub</code>. On Windows, prefer an absolute catalog path in <code>AGENTHUB_CATALOG_PATH</code>:</p>
             <div class="code-block standalone">
               <pre id="config-private-repo"></pre>
             </div>
@@ -429,18 +448,28 @@ pip install agenthub agenthub-mcp
         </header>
         <div data-tabs>
           <div class="setup-tabs" role="tablist">
-            <button type="button" class="tab-btn active" data-tab="tab-python" role="tab">Python (agenthub-mcp)</button>
-            <button type="button" class="tab-btn" data-tab="tab-npm" role="tab">npm (@agenthub/mcp)</button>
+            <button type="button" class="tab-btn active" data-tab="tab-npm" role="tab">npm (@agenthub-mcp/mcp)</button>
+            <button type="button" class="tab-btn" data-tab="tab-python" role="tab">Python MCP (optional / git)</button>
             <button type="button" class="tab-btn" data-tab="tab-dev" role="tab">Dev (repo venv)</button>
           </div>
-          <div id="tab-python" class="tab-panel active" role="tabpanel">
-            <div class="code-block standalone">
-              <pre id="config-python"></pre>
-            </div>
-          </div>
-          <div id="tab-npm" class="tab-panel" role="tabpanel">
+          <div id="tab-npm" class="tab-panel active" role="tabpanel">
             <div class="code-block standalone">
               <pre id="config-npm"></pre>
+            </div>
+            <p class="step-note" style="margin-top: 0.75rem;">
+              Global install alternative: <code>npm install -g @agenthub-mcp/mcp</code> then command
+              <code>agenthub-mcp</code>. On Windows, set <code>AGENTHUB_CATALOG_PATH</code> to an absolute
+              path (e.g. <code>C:/Users/you/project/.agenthub</code>).
+            </p>
+          </div>
+          <div id="tab-python" class="tab-panel" role="tabpanel">
+            <p class="step-note" style="margin-bottom: 0.75rem;">
+              Secondary path — install from git (PyPI not published yet):
+              <code>pip install "agenthub-mcp @ git+https://github.com/BeeNeural-com/agenthub.git@main#subdirectory=packages/python/agenthub-mcp"</code>.
+              Prefer the npm tab for Cursor.
+            </p>
+            <div class="code-block standalone">
+              <pre id="config-python"></pre>
             </div>
           </div>
           <div id="tab-dev" class="tab-panel" role="tabpanel">
@@ -459,7 +488,7 @@ pip install agenthub agenthub-mcp
           <tbody>
             <tr>
               <td><code>AGENTHUB_CATALOG_PATH</code></td>
-              <td>Installed catalog directory (e.g. <code>.agenthub/</code> or repo root for dev)</td>
+              <td>Installed catalog directory (e.g. <code>.agenthub/</code>). On Windows, prefer an absolute path such as <code>C:/Users/you/project/.agenthub</code>.</td>
             </tr>
             <tr>
               <td><code>AGENTHUB_BUNDLE</code></td>
